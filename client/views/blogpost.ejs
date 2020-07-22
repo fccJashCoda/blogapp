@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head.ejs')%>
+  <body>
+    <%- include('./partials/header.ejs') %>
+    <h3><%= blog.title %></h3>
+    <p><%= helper.humanReadableDate(blog.publishedDate) %></p>
+    <p><%= blog.publishedDate %></p>
+    <p><%= blog.author %></p>
+    <p><%= blog.article %></p>
+    <p><%= helper.timeSincePublished(blog.publishedDate) %></p>
+    <p>Likes: <%= blog.likes %></p>
+    <button onclick="('<%= () => helper.likePost() %>')">like</button>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>

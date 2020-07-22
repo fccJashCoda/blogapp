@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head.ejs')%>
+  <body>
+    <%- include('./partials/header.ejs') %>
+    <div class="container">
+      <p><%= postCounter%></p>
+      <p></p>
+      <% if (blogs.length) { %> <% blogs.forEach(blog => { %>
+      <div>
+        <a href="../<%= blog.slug%>" class="blogArticle">
+          <h3><%= blog.title %></h3>
+          <p><%= blog.snippet %></p>
+          <p><%= blog.author %></p>
+          <p><%= helper.timeSincePublished(blog.publishedDate) %></p>
+        </a>
+        <hr />
+      </div>
+      <% }) %> <% } %>
+
+      <!-- Pagination -->
+      <div class="paginationbtns" id="paginationbtns">
+        <% if (pages > 0) { %>
+        <ul class="pagination text-center">
+          <% if (current === 1) { %>
+          <li><a class="disabled">First</a></li>
+          <% } else { %>
+          <li><a href="/blog/">First</a></li>
+          <% }%> <% let i = Number(current) > 4 ? Number(current) - 3 : 1%> <%
+          if (current !== 1 && current > 4) { %>
+          <li class="disabled"><a href="<%= `/blog/${current-1}`%>"><</a></li>
+          <li class="disabled"><a>...</a></li>
+          <% } %> <% for (;i < (Number(current) + 4) && i <= pages; i++) { %> <%
+          if (i == current) { %>
+          <li class="active"><a><%= i%></a></li>
+          <% } else { %>
+          <li>
+            <a href="<%= (i === 1 ? '/blog/' : `/blog/${i}`)%>"><%= i%></a>
+          </li>
+          <% } %> <% } %> <% if (i == Number(current) + 4 && i <= pages) { %>
+          <li class="disabled"><a>...</a></li>
+          <li class="disabled">
+            <a href="<%= `/blog/${Number(current)+1}`%>">></a>
+          </li>
+          <% } %><% if (current == pages) { %>
+          <li class="disabled"><a>Last</a></li>
+          <% } else { %>
+          <li><a href="/blog/<%= pages %>">Last</a></li>
+          <% }%>
+        </ul>
+        <% } %>
+      </div>
+      <%- include('./partials/sidebar.ejs')%>
+    </div>
+    <%- include('./partials/footer.ejs')%>
+  </body>
+</html>

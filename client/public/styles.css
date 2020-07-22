@@ -1,0 +1,37 @@
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+ul {
+  list-style: none;
+}
+
+.pagination {
+  display: flex;
+}
+
+.pagination li a {
+  display: block;
+  padding: 0.5em 1em;
+  border: 1px solid skyblue;
+  color: rgb(9, 90, 122);
+}
+.pagination li a:hover {
+  background: skyblue;
+  color: #fff !important;
+}
+
+.active,
+.disabled {
+  cursor: default;
+}
+
+.container {
+  width: 650px;
+  margin: 0 auto;
+}
+
+.blogArticle {
+  display: block;
+}
