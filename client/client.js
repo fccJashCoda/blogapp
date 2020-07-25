@@ -2,6 +2,11 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 
+// const passport = require('passport');
+// const session = require('express-session');
+// const initializePassport = require('./auth/auth');
+// initializePassport(passport);
+
 const app = express();
 const port = 8000;
 
@@ -14,6 +19,15 @@ app.set('view engine', 'ejs');
 // Middleware
 app.use(cors());
 app.use(express.static(path.resolve(__dirname, 'public')));
+// app.use(
+//   session({
+//     secret: process.env.SECRET,
+//     resave: false,
+//     saveUninitialized: false,
+//   })
+// );
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 // Routes
 app.use('/blog', router.blog);
