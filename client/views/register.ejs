@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head.ejs')%>
+  <body>
+    <h4>Register</h4>
+    <form action="/register" method="POST">
+      <div>
+        <label for="username">Username</label>
+        <input type="username" name="username" id="username" />
+      </div>
+      <div>
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" />
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" />
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+    <a href="/login">Login</a>
+    <%- include('./partials/footer.ejs')%>
+  </body>
+</html>

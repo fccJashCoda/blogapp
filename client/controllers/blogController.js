@@ -2,6 +2,9 @@ const axios = require('axios');
 const proxy = 'http://localhost:5000';
 const helper = require('../helper');
 
+// @route GET login
+// @desc display the login page
+// @access public
 exports.get_blogs = (req, res) => {
   const query = req.params.page > 0 ? req.params.page : '';
 
@@ -20,10 +23,17 @@ exports.get_blogs = (req, res) => {
     });
 };
 
-exports.get_blog = (req, res) => {
+// @route GET login
+// @desc display the login page
+// @access public
+exports.get_blog = (req, res, next) => {
   axios
     .get(`${proxy}/api/blog/${req.params.slug}`)
     .then(({ data: blog }) => {
+      if (blog.error) {
+        return next();
+        // return res.render('404');
+      }
       return res.render('blogpost', { ...blog, helper });
     })
     .catch((err) => res.json(err));
