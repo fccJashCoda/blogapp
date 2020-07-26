@@ -36,6 +36,12 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+app.use((req, res, next) => {
+  res.locals.user = req.user
+    ? { username: req.user.username, email: req.user.email }
+    : '';
+  next();
+});
 
 // Routes
 app.use('/blog', router.blog);
@@ -44,9 +50,10 @@ app.use('/blog', router.blog);
 // @desc redirects to the main blog page
 // @access public
 app.get('/', (req, res) => {
-  if (req.session) {
-    console.log(req.session);
-  }
+  // if (req.session) {
+  //   console.log(req.session);
+  // }
+  console.log(res);
   res.redirect('/blog');
 });
 
