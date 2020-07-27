@@ -1,8 +1,5 @@
 const moment = require('moment');
-
-function sayHi() {
-  return 'Hello there';
-}
+const User = require('./models/user');
 
 function timeSincePublished(timestamp) {
   if (timestamp >= Date.now() - 999) {
@@ -29,7 +26,6 @@ function humanReadableDate(timestamp) {
 }
 
 module.exports = {
-  sayHi,
   timeSincePublished,
   humanReadableDate,
 };

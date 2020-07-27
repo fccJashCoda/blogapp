@@ -18,17 +18,29 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    passwordEncrypted: {
+      type: Boolean,
+      default: false,
+    },
+    likedPosts: {
+      type: Array,
+      default: [],
+    },
   },
   { timestamps: true }
 );
 
 userSchema.pre('save', function (next) {
+  if (this.passwordEncrypted) {
+    return next();
+  }
   const user = this;
   bcrypt.genSalt(10, (err, salt) => {
     if (err) throw err;
     bcrypt.hash(user.password, salt, (err, hash) => {
       if (err) throw err;
       user.password = hash;
+      user.passwordEncrypted = true;
       next();
     });
   });
@@ -37,6 +49,14 @@ userSchema.pre('save', function (next) {
 userSchema.methods.isValidPassword = async function (password) {
   const compare = await bcrypt.compareSync(password, this.password);
   return compare;
+};
+
+userSchema.methods.addLikedPost = function (blog, next) {
+  if (this.likedPosts.includes(blog)) {
+    return next();
+  }
+  this.likedPosts.push(blog);
+  this.save().then(() => next());
 };
 
 const User = mongoose.model('User', userSchema);

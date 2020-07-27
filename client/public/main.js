@@ -1,13 +1,32 @@
-const button = document.querySelector('button');
+const likeBtn = document.querySelector('.likeBtn');
+const likeCount = document.querySelector('.likeCount');
 
-button.addEventListener('click', () => {
-  const query = document.URL.replace('http://localhost:8000/', '');
-  console.log(query);
-  fetch(`http://localhost:5000/api/blog/${query}/like`, {
-    method: 'PUT',
-    mode: 'cors',
-  }).catch((err) => console.log(err));
-});
+if (likeBtn) {
+  likeBtn.addEventListener('click', () => {
+    fetch(`${document.URL}/like`, {
+      method: 'PUT',
+      mode: 'cors',
+    }).catch((err) => console.log(err));
+  });
+  // button.addEventListener('click', () => {
+  //   const query = document.URL.replace('http://localhost:8000/', '');
+  //   console.log(query);
+  //   fetch(`http://localhost:5000/api/blog/${query}/like`, {
+  //     method: 'PUT',
+  //     mode: 'cors',
+  //   })
+  //     .then(() => {
+  //       let regex = /\d+/g;
+  //       let search = likeCount.textContent;
+  //       let value = search.match(regex)[0];
+  //       likeCount.textContent = likeCount.textContent.replace(
+  //         value,
+  //         +value + 1
+  //       );
+  //     })
+  //     .catch((err) => console.log(err));
+  // });
+}
 
 // features yet to be implemented
 // right now, likes can be spammed

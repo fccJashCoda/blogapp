@@ -32,7 +32,6 @@ exports.get_blog = (req, res, next) => {
     .then(({ data: blog }) => {
       if (blog.error) {
         return next();
-        // return res.render('404');
       }
       return res.render('blogpost', { ...blog, helper });
     })

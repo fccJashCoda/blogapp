@@ -5,6 +5,7 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+const flash = require('express-flash');
 const cors = require('cors');
 
 const passport = require('passport');
@@ -18,6 +19,7 @@ const port = 8000;
 const router = require('./routes/router');
 const blogController = require('./controllers/blogController');
 const User = require('./models/user');
+const axios = require('axios');
 
 // view engine
 app.set('view engine', 'ejs');
@@ -36,9 +38,15 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 app.use((req, res, next) => {
   res.locals.user = req.user
-    ? { username: req.user.username, email: req.user.email }
+    ? {
+        username: req.user.username,
+        email: req.user.email,
+        id: req.user._id,
+        liked: req.user.likedPosts,
+      }
     : '';
   next();
 });
@@ -50,10 +58,6 @@ app.use('/blog', router.blog);
 // @desc redirects to the main blog page
 // @access public
 app.get('/', (req, res) => {
-  // if (req.session) {
-  //   console.log(req.session);
-  // }
-  console.log(res);
   res.redirect('/blog');
 });
 
@@ -72,6 +76,7 @@ app.post(
   passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/login',
+    failureFlash: true,
   })
 );
 
@@ -79,9 +84,7 @@ app.post(
 // @desc logout the user
 // @access private user
 app.post('/logout', (req, res) => {
-  console.log(req.user);
   req.logout();
-  console.log(req.user);
   res.redirect('/');
 });
 
@@ -124,6 +127,25 @@ app.get('/contact', (req, res) => {
 });
 app.get('/test', (req, res) => {
   res.render('404', { msg: 'Hey there' });
+});
+
+app.put('/:slug/like', async (req, res, next) => {
+  // update the user likedpost list
+  User.findById(res.locals.user.id)
+    .then(async (user) => {
+      if (!user) {
+        return res.render('404', { msg: 'Server Error' });
+      }
+      console.log('liked');
+      user.addLikedPost(req.params.slug);
+      axios
+        .put(`http://localhost:5000/api/blog/${req.params.slug}/like`)
+        .catch((err) => next(err));
+
+      console.log('redirecting');
+      return res.redirect('/:slug');
+    })
+    .catch((err) => res.render('404', { msg: 'Server Error' }));
 });
 
 app.get('/:slug', blogController.get_blog);

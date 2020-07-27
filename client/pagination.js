@@ -26,7 +26,6 @@ const listItems = [
 ];
 
 const paginatedList = document.getElementById('paginatedList');
-const paginationbtns = document.getElementById('paginationbtns');
 
 function paginate(blogs) {
   // console.log(list);
