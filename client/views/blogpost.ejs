@@ -10,13 +10,11 @@
     <p><%= blog.article %></p>
     <p><%= helper.timeSincePublished(blog.publishedDate) %></p>
     <p class="likeCount">Likes: <%= blog.likes %></p>
-    <% if (locals.user) { %>
+    <% if (locals.user) { %> <% if (!locals.user.liked.includes(blog.slug)) { %>
     <button class="likeBtn" onclick="('<%= () => helper.likePost() %>')">
       like
     </button>
 
-    <% if (!locals.user.liked.includes(blog.slug)) { %>
-    <p>placeholder</p>
     <% } %> <% } %>
     <script type="module" src="/main.js"></script>
   </body>

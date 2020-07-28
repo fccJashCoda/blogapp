@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
@@ -30,7 +30,7 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-userSchema.pre('save', function (next) {
+userSchema.pre("save", function (next) {
   if (this.passwordEncrypted) {
     return next();
   }
@@ -51,13 +51,13 @@ userSchema.methods.isValidPassword = async function (password) {
   return compare;
 };
 
-userSchema.methods.addLikedPost = function (blog, next) {
+userSchema.methods.addLikedPost = function (blog) {
   if (this.likedPosts.includes(blog)) {
     return next();
   }
   this.likedPosts.push(blog);
-  this.save().then(() => next());
+  this.save();
 };
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 module.exports = User;
