@@ -1,11 +1,14 @@
 const axios = require('axios');
 const proxy = 'http://localhost:5000';
-const helper = require('../helper');
+const helper = require('../utils/helper');
 
 // @route GET login
 // @desc display the login page
 // @access public
-exports.get_blogs = (req, res) => {
+exports.get_blogs = (req, res, next) => {
+  if (req.params.page && !Number(req.params.page)) {
+    return next();
+  }
   const query = req.params.page > 0 ? req.params.page : '';
 
   axios

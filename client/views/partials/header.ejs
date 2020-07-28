@@ -16,6 +16,9 @@
 
       <% if (locals.user) { %>
       <li>
+        Welcome, <%= locals.user.username%>
+      </li>
+      <li>
         <form action="/logout" method="POST">
           <button type="submit">Logout</button>
         </form>

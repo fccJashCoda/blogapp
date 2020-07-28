@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head.ejs')%>
+    <script src="https://cdn.ckeditor.com/4.14.1/basic/ckeditor.js"></script>
+  </head>
+  <body>
+    <form action="">
+      <label for="comment">Your comment:</label>
+      <textarea name="editor" id="" cols="30" rows="10"></textarea>
+      <button type="submit">Post comment</button>
+    </form>
+    <script>
+      CKEDITOR.replace('editor');
+    </script>
+  </body>
+</html>
