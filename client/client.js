@@ -21,6 +21,8 @@ const blogController = require('./controllers/blogController');
 const User = require('./models/user');
 const axios = require('axios');
 
+const { checkIsAuthenticated, checkNotAuthenticated } = require('./auth/utils');
+
 // view engine
 app.set('view engine', 'ejs');
 
@@ -53,6 +55,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/blog', router.blog);
+app.use('/auth', router.auth);
 
 // @route GET /
 // @desc redirects to the main blog page
@@ -60,26 +63,6 @@ app.use('/blog', router.blog);
 app.get('/', (req, res) => {
   res.redirect('/blog');
 });
-
-// @route GET /login
-// @desc display the login page
-// @access public
-app.get('/login', checkNotAuthenticated, (req, res) => {
-  res.render('login');
-});
-
-// @route POST /login
-// @desc user login
-// @access public
-app.post(
-  '/login',
-  checkNotAuthenticated,
-  passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login',
-    failureFlash: true,
-  })
-);
 
 // @route POST /logout
 // @desc logout the user
@@ -171,17 +154,3 @@ mongoose
 
 // Server
 app.listen(port, () => console.log(`Frontend running on port ${port}`));
-
-function checkIsAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect('/login');
-}
-
-function checkNotAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return res.redirect('/');
-  }
-  return next();
-}
