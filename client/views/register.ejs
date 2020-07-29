@@ -5,7 +5,7 @@
   </head>
   <body>
     <h4>Register</h4>
-    <form action="/register" method="POST">
+    <form action="/auth/register" method="POST">
       <div>
         <label for="username">Username</label>
         <input type="username" name="username" id="username" />
@@ -20,7 +20,7 @@
       </div>
       <button type="submit">Submit</button>
     </form>
-    <a href="/login">Login</a>
+    <a href="/auth/login">Login</a>
     <%- include('./partials/footer.ejs')%>
   </body>
 </html>

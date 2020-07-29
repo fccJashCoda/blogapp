@@ -20,7 +20,7 @@ exports.post_login = (req, res, next) => {
 
 exports.logout = (req, res) => {
   req.logout();
-  res.redirect('/');
+  res.redirect('../');
 };
 
 exports.get_register = (req, res) => {
@@ -43,7 +43,7 @@ exports.post_register = (req, res) => {
   newUser
     .save()
     // .then(() => res.redirect('/'))
-    .then(() => res.redirect(307, '/login'))
+    .then(() => res.redirect(307, '/auth/login'))
     .catch((err) => {
       return res.render('404', { msg: err });
     });

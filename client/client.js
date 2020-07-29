@@ -56,15 +56,8 @@ app.use((req, res, next) => {
 });
 
 // Routes
-app.use('/blog', router.blog);
+app.use('/', router.blog);
 app.use('/auth', router.auth);
-
-// @route GET /
-// @desc redirects to the main blog page
-// @access public
-app.get('/', (req, res) => {
-  res.redirect('/blog');
-});
 
 app.get('/test', (req, res) => {
   res.render('postComment');
