@@ -3,9 +3,6 @@ const proxy = 'http://localhost:5000';
 const helper = require('../utils/helper');
 const User = require('../models/user');
 
-// @route GET login
-// @desc display the login page
-// @access public
 exports.get_blogs = (req, res, next) => {
   if (req.params.page && !Number(req.params.page)) {
     return next();
@@ -27,9 +24,6 @@ exports.get_blogs = (req, res, next) => {
     });
 };
 
-// @route GET login
-// @desc display the login page
-// @access public
 exports.get_blog = (req, res, next) => {
   axios
     .get(`${proxy}/api/blog/${req.params.slug}`)
@@ -58,5 +52,12 @@ exports.put_slug_like = async (req, res, next) => {
 };
 
 exports.get_slug_comment = (req, res) => {
-  res.render('blogComment');
+  console.log(req.params.slug);
+  res.render('blogComment', { slug: req.params.slug });
+};
+
+exports.post_slug_comment = (req, res) => {
+  const { editor } = req.body;
+  console.log(editor);
+  res.send('POST comment: work in progress');
 };

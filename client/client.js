@@ -17,12 +17,6 @@ const app = express();
 const port = 8000;
 
 const router = require('./routes/router');
-// const blogController = require("./controllers/blogController");
-const { blogController, authController } = require('./controllers/controllers');
-const User = require('./models/user');
-const axios = require('axios');
-
-const { checkIsAuthenticated, checkNotAuthenticated } = require('./auth/utils');
 
 // view engine
 app.set('view engine', 'ejs');
@@ -58,29 +52,6 @@ app.use((req, res, next) => {
 // Routes
 app.use('/', router.blog);
 app.use('/auth', router.auth);
-
-app.get('/test', (req, res) => {
-  res.render('postComment');
-});
-
-// @route POST /:slug/like
-// @desc allows liking a blog if user is authenticated
-// @access private
-app.put('/:slug/like', checkIsAuthenticated, blogController.put_slug_like);
-
-// @route POST /:slug/comment
-// @desc allows posting a comment if user is authenticated
-// @access private
-app.get(
-  '/:slug/comment',
-  checkIsAuthenticated,
-  blogController.get_slug_comment
-);
-
-// @route POST /:slug
-// @desc display a specific article
-// @access public
-app.get('/:slug', blogController.get_blog);
 
 // 404
 app.use((req, res) => {

@@ -1,11 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { blogController } = require('../controllers/controllers');
+const blogController = require('../controllers/blogController');
 
-const {
-  checkIsAuthenticated,
-  checkNotAuthenticated,
-} = require('../auth/utils');
+const { checkIsAuthenticated } = require('../auth/utils');
 
 router.get('/', (req, res) => {
   res.redirect('/blog/');
@@ -21,13 +18,22 @@ router.get('/blog/:page?', blogController.get_blogs);
 // @access private
 router.put('/:slug/like', checkIsAuthenticated, blogController.put_slug_like);
 
-// @route POST /:slug/comment
-// @desc allows posting a comment if user is authenticated
+// @route GET /:slug/comment
+// @desc display the comment page
 // @access private
 router.get(
   '/:slug/comment',
   checkIsAuthenticated,
   blogController.get_slug_comment
+);
+
+// @route POST /:slug/comment
+// @desc post a comment if user is authenticated
+// @access private
+router.post(
+  '/:slug/comment',
+  checkIsAuthenticated,
+  blogController.post_slug_comment
 );
 
 // @route POST /:slug
