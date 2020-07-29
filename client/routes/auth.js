@@ -1,31 +1,34 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const { authController } = require("../controllers/controllers");
-const { checkNotAuthenticated } = require("../auth/utils");
+const { authController } = require('../controllers/controllers');
+const {
+  checkIsAuthenticated,
+  checkNotAuthenticated,
+} = require('../auth/utils');
 
 // @route GET /login
 // @desc display the login page
 // @access public
-router.get("/login", checkNotAuthenticated, (req, res) => {
-  res.render("login");
-});
+router.get('/login', checkNotAuthenticated, authController.get_login);
 
 // @route POST /login
-// @desc user login
+// @desc authenticate user and log him in
 // @access public
-// router.post(
-//   "/login",
-//   checkNotAuthenticated,
-//   passport.authenticate("local", {
-//     successRedirect: "/",
-//     failureRedirect: "/login",
-//     failureFlash: true,
-//   })
-// );
+router.post('/login', checkNotAuthenticated, authController.post_login);
 
-// router.get('/success', (req, res) => {
-//   console.log('logged in');
-//   res.redirect('/noodle');
-// });
+// @route POST /logout
+// @desc logout the user
+// @access private user
+router.post('/logout', checkIsAuthenticated, authController.logout);
+
+// @route GET /register
+// @desc display the register page
+// @access public
+router.get('/register', checkNotAuthenticated, authController.get_register);
+
+// @route POST /register
+// @desc register the user in the database
+// @access public
+router.post('/register', checkNotAuthenticated, authController.post_register);
 
 module.exports = router;
