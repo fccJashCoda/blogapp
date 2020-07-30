@@ -9,11 +9,13 @@
     <form action="/<%= slug%>/comment" method="POST">
       <label for="comment">Your comment:</label>
       <textarea name="editor" id="" cols="30" rows="10"></textarea>
+      <input type="hidden" name="slug" value="<%= slug%>" />
+      <input type="hidden" name="blogid" value="<%= blogid%>" />
       <button type="submit">Post comment</button>
     </form>
     <h6><%= blogid %></h6>
     <script>
-      CKEDITOR.replace("editor");
+      CKEDITOR.replace('editor');
     </script>
   </body>
 </html>

@@ -4,17 +4,17 @@ const Schema = mongoose.Schema;
 const blogCommentSchema = new Schema(
   {
     author: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: 'User',
       required: true,
     },
     body: {
       type: String,
       required: true,
     },
-    blogPost: {
+    blogPostId: {
       type: String,
-      // type: Schema.Types.ObjectId,
-      // ref: 'Blog',
+      required: true,
     },
     test: {
       type: Date,
@@ -24,5 +24,5 @@ const blogCommentSchema = new Schema(
   { timestamps: true }
 );
 
-const BlogComment = mongoose.model('BlogCommemt', blogCommentSchema);
+const BlogComment = mongoose.model('BlogComment', blogCommentSchema);
 module.exports = BlogComment;
