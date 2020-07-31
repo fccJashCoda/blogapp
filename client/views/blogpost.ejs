@@ -21,9 +21,12 @@
     <a class="btn" href="/<%= blog.slug%>/comment?id=<%= blog._id%>">Comment</a>
     <% } %> <% comments.forEach(comment => { %>
     <div>
-      <p><%= comment.author.username %></p>
+      <a href="/users/<%= comment.author.username %>"
+        ><%= comment.author.username %></a
+      >
+      <p></p>
       <p><%= helper.humanReadableDate(comment.test) %></p>
-      <p><%= comment.body %></p>
+      <p><%- comment.body%></p>
     </div>
     <% }) %>
     <script type="module" src="/main.js"></script>

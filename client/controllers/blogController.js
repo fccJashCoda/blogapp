@@ -3,6 +3,7 @@ const proxy = 'http://localhost:5000';
 const helper = require('../utils/helper');
 const User = require('../models/user');
 const BlogComment = require('../models/blogComment');
+const { body, validationResult } = require('express-validator');
 
 exports.get_blogs = (req, res, next) => {
   if (req.params.page && !Number(req.params.page)) {
@@ -32,6 +33,7 @@ exports.get_blog = (req, res, next) => {
       }
       BlogComment.find({ blogPostId: blog.blog._id })
         .populate('author', 'username')
+        .sort({ createdAt: -1 })
         .then((comments) => {
           return res.render('blogpost', { ...blog, comments, helper });
         })
@@ -59,20 +61,29 @@ exports.get_slug_comment = (req, res) => {
   res.render('blogComment', { slug: req.params.slug, blogid: req.query.id });
 };
 
-exports.post_slug_comment = (req, res, next) => {
-  const { editor, slug, blogid } = req.body;
-  console.log(editor);
-  console.log(slug);
-  console.log(blogid);
+exports.post_slug_comment = [
+  body('editor').not().isEmpty().withMessage('No empty posts allowed'),
 
-  const comment = new BlogComment({
-    author: res.locals.user.id,
-    body: editor,
-    blogPostId: blogid,
-  });
+  (req, res, next) => {
+    const errors = validationResult(req);
+    const { editor, slug, blogid } = req.body;
+    if (!errors.isEmpty()) {
+      res.render('blogComment', {
+        slug,
+        blogid,
+        messages: { error: errors.errors[0].msg },
+      });
+    }
 
-  comment
-    .save()
-    .then(() => res.redirect(`/${slug}`))
-    .catch((err) => next(err));
-};
+    const comment = new BlogComment({
+      author: res.locals.user.id,
+      body: editor,
+      blogPostId: blogid,
+    });
+
+    comment
+      .save()
+      .then(() => res.redirect(`/${slug}`))
+      .catch((err) => next(err));
+  },
+];

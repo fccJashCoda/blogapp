@@ -53,6 +53,11 @@ app.use((req, res, next) => {
 app.use('/', router.blog);
 app.use('/auth', router.auth);
 
+app.get('/users/:username', (req, res) => {
+  console.log(req.params.username);
+  res.send('work in progress: User page');
+});
+
 // 404
 app.use((req, res) => {
   res.render('404', { msg: '404 - Page Not Found' });

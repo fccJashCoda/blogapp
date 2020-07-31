@@ -5,6 +5,7 @@
   </head>
   <body>
     <h4>Register</h4>
+    <% if (messages.error) { %> <%= messages.error %> <% } %>
     <form action="/auth/register" method="POST">
       <div>
         <label for="username">Username</label>
