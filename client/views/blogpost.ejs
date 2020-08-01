@@ -19,7 +19,11 @@
 
     <% } %>
     <a class="btn" href="/<%= blog.slug%>/comment?id=<%= blog._id%>">Comment</a>
-    <% } %> <% comments.forEach(comment => { %>
+    <% } %>
+    <h4>
+      <%= commentCounter %>
+    </h4>
+    <% comments.forEach(comment => { %>
     <div>
       <a href="/users/<%= comment.author.username %>"
         ><%= comment.author.username %></a

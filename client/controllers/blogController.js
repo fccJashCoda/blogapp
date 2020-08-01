@@ -35,7 +35,17 @@ exports.get_blog = (req, res, next) => {
         .populate('author', 'username')
         .sort({ createdAt: -1 })
         .then((comments) => {
-          return res.render('blogpost', { ...blog, comments, helper });
+          const commentCounter = comments.length
+            ? `${comments.length} ${
+                comments.length > 1 ? 'Comments' : 'Comment'
+              }`
+            : 'No comments';
+          return res.render('blogpost', {
+            ...blog,
+            comments,
+            commentCounter,
+            helper,
+          });
         })
         .catch((err) => next(err));
     })
