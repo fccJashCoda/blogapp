@@ -12,11 +12,18 @@ const passport = require('passport');
 const session = require('express-session');
 const initializePassport = require('./auth/auth');
 initializePassport(passport);
+const axios = require('axios');
+const helper = require('./utils/helper');
 
 const app = express();
 const port = 8000;
 
 const router = require('./routes/router');
+const { RSA_NO_PADDING } = require('constants');
+
+// Cache
+let cachedTopFiveData;
+let cachedTopFiveDataTime;
 
 // view engine
 app.set('view engine', 'ejs');
@@ -47,6 +54,29 @@ app.use((req, res, next) => {
       }
     : '';
   next();
+});
+app.use(async (req, res, next) => {
+  if (cachedTopFiveData && cachedTopFiveDataTime > Date.now() - 300000) {
+    res.locals.topFive = cachedTopFiveData;
+    return next();
+  }
+  try {
+    const { data } = await axios.get('http://localhost:5000/api/blog/topFive');
+    const topFive = [];
+    data.topFive.forEach((item, index) => {
+      topFive[index] = {
+        title: item.title,
+        slug: item.slug,
+        pubDate: helper.humanReadableDate(item.publishedDate),
+      };
+    });
+    cachedTopFiveData = topFive;
+    cachedTopFiveDataTime = Date.now();
+    res.locals.topFive = topFive;
+    next();
+  } catch (error) {
+    next();
+  }
 });
 
 // Routes
