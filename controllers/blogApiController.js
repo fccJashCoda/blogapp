@@ -137,7 +137,6 @@ exports.update_blog_at_slug = (req, res) => {
 // @desc increments the number of likes of a blog article
 // @access public
 exports.like_blog_article = (req, res) => {
-  console.log(`${req.params.slug} liked`);
   Blog.findOne({ slug: req.params.slug }).then((blog) => {
     blog.like();
     return res.json({ msg: 'post liked' });

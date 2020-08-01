@@ -16,7 +16,7 @@ router.get('/blog/:page?', blogController.get_blogs);
 // @route POST /:slug/like
 // @desc allows liking a blog if user is authenticated
 // @access private
-router.put('/:slug/like', checkIsAuthenticated, blogController.put_slug_like);
+router.post('/:slug/like', checkIsAuthenticated, blogController.put_slug_like);
 
 // @route GET /:slug/comment
 // @desc display the comment page

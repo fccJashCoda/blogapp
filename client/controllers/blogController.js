@@ -52,7 +52,7 @@ exports.put_slug_like = async (req, res, next) => {
       axios
         .put(`http://localhost:5000/api/blog/${req.params.slug}/like`)
         .catch((err) => next(err));
-      return next();
+      return res.redirect(`/${req.params.slug}`);
     })
     .catch((err) => res.render('404', { msg: 'Server Error' }));
 };

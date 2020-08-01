@@ -13,9 +13,9 @@
     <p><%= helper.timeSincePublished(blog.publishedDate) %></p>
     <p class="likeCount">Likes: <%= blog.likes %></p>
     <% if (locals.user) { %> <% if (!locals.user.liked.includes(blog.slug)) { %>
-    <button class="likeBtn" onclick="('<%= () => helper.likePost() %>')">
-      like
-    </button>
+    <form action="/<%= blog.slug%>/like" method="POST">
+      <input type="submit" value="Like" />
+    </form>
 
     <% } %>
     <a class="btn" href="/<%= blog.slug%>/comment?id=<%= blog._id%>">Comment</a>
