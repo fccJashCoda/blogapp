@@ -42,21 +42,20 @@ exports.post_register = [
     .not()
     .isEmpty()
     .withMessage('Please enter a valid username.')
+    .custom((value) => !/\s/.test(value))
+    .withMessage('Whitespaces are not allowed')
+    .custom(async (value) => {
+      const foundUser = await User.findOne({ username: value });
+      if (foundUser !== null) return Promise.reject();
+    })
+    .withMessage('Username already in use.')
     .escape(),
   body('email')
-    // .custom((value) => {
-    //   User.find({ email: value }).then((err, foundUser) => {
-    //     console.log(err);
-    //     console.log(typeof value);
-    //     console.log(foundUser);
-    //     if (foundUser) {
-    //       console.log('user found');
-    //       return Promise.reject('E-mail already in use.');
-    //     }
-    //     return;
-    //   });
-    // })
-    // .withMessage('Email already in use')
+    .custom(async (value) => {
+      const foundUser = await User.findOne({ email: value });
+      if (foundUser !== null) return Promise.reject();
+    })
+    .withMessage('Email already in use')
     .trim()
     .isEmail()
     .withMessage('Invalid email')
