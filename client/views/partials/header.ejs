@@ -9,6 +9,9 @@
       </li>
       <% if (locals.user) { %>
       <li>
+        <a href="/user/account/<%= locals.user.username%>">My account</a>
+      </li>
+      <li>
         Welcome, <%= locals.user.username%>
       </li>
       <li>
