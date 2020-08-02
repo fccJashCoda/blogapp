@@ -1,37 +1,36 @@
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
 }
 
-const express = require('express');
-const mongoose = require('mongoose');
-const path = require('path');
-const flash = require('express-flash');
-const cors = require('cors');
+const express = require("express");
+const mongoose = require("mongoose");
+const path = require("path");
+const flash = require("express-flash");
+const cors = require("cors");
 
-const passport = require('passport');
-const session = require('express-session');
-const initializePassport = require('./auth/auth');
+const passport = require("passport");
+const session = require("express-session");
+const initializePassport = require("./auth/auth");
 initializePassport(passport);
-const axios = require('axios');
-const helper = require('./utils/helper');
+const axios = require("axios");
+const helper = require("./utils/helper");
 
 const app = express();
 const port = 8000;
 
-const router = require('./routes/router');
-const { RSA_NO_PADDING } = require('constants');
+const router = require("./routes/router");
 
 // Cache
 let cachedTopFiveData;
 let cachedTopFiveDataTime;
 
 // view engine
-app.set('view engine', 'ejs');
-app.set('passport', passport);
+app.set("view engine", "ejs");
+app.set("passport", passport);
 
 // Middleware
 app.use(cors());
-app.use(express.static(path.resolve(__dirname, 'public')));
+app.use(express.static(path.resolve(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
@@ -52,7 +51,7 @@ app.use((req, res, next) => {
         id: req.user._id,
         liked: req.user.likedPosts,
       }
-    : '';
+    : "";
   next();
 });
 app.use(async (req, res, next) => {
@@ -61,7 +60,7 @@ app.use(async (req, res, next) => {
     return next();
   }
   try {
-    const { data } = await axios.get('http://localhost:5000/api/blog/topFive');
+    const { data } = await axios.get("http://localhost:5000/api/blog/topFive");
     const topFive = [];
     data.topFive.forEach((item, index) => {
       topFive[index] = {
@@ -80,17 +79,18 @@ app.use(async (req, res, next) => {
 });
 
 // Routes
-app.use('/', router.blog);
-app.use('/auth', router.auth);
+app.use("/", router.blog);
+app.use("/auth", router.auth);
+app.use("/user", router.user);
 
-app.get('/users/:username', (req, res) => {
+app.get("/users/:username", (req, res) => {
   console.log(req.params.username);
-  res.send('work in progress: User page');
+  res.send("work in progress: User page");
 });
 
 // 404
 app.use((req, res) => {
-  res.render('404', { msg: '404 - Page Not Found' });
+  res.render("404", { msg: "404 - Page Not Found" });
 });
 
 // client db
@@ -99,7 +99,7 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log('clientDB connected'))
+  .then(() => console.log("clientDB connected"))
   .catch((err) => console.log(err));
 
 // Server
