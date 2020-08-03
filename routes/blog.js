@@ -26,6 +26,7 @@ router.post('/', blogController.post_new_blog);
 // @route GET /blog/:slug
 // @desc return a specific blog article
 // @access public
+// router.get('/:slug', blogController.get_blog_at_slug);
 router.get('/:slug', blogController.get_blog_at_slug);
 
 // @route PUT /blog/:slug

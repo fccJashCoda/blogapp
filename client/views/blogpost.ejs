@@ -7,7 +7,6 @@
     <%- include('./partials/header.ejs') %>
     <h3><%= blog.title %></h3>
     <p><%= helper.humanReadableDate(blog.publishedDate) %></p>
-    <p><%= blog.publishedDate %></p>
     <p><%= blog.author %></p>
     <p><%= blog.article %></p>
     <p><%= helper.timeSincePublished(blog.publishedDate) %></p>
@@ -25,12 +24,9 @@
     </h4>
     <% comments.forEach(comment => { %>
     <div>
-      <a href="/user/<%= comment.author.username %>"
-        ><%= comment.author.username %></a
-      >
-      <p></p>
-      <p><%= helper.humanReadableDate(comment.test) %></p>
-      <p><%- comment.body%></p>
+      <a href="/user/<%= comment.author %>"><%= comment.author %></a>
+      <p><%= helper.humanReadableDate(comment.createdAt) %></p>
+      <p><%- comment.commentBody%></p>
     </div>
     <% }) %>
     <script type="module" src="/main.js"></script>

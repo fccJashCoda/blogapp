@@ -20,8 +20,9 @@ function timeSincePublished(timestamp) {
 }
 
 function humanReadableDate(timestamp) {
-  const date = new Date(+timestamp);
-  return moment(date).format('MMMM Do YYYY, h:mm:ss a');
+  return moment(Number(timestamp) ? new Date(+timestamp) : timestamp).format(
+    'MMMM Do YYYY, h:mm:ss a'
+  );
 }
 
 module.exports = {

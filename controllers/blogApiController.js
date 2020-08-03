@@ -1,6 +1,7 @@
 const helper = require('../utils/tools');
 
 const { Blog } = require('../models/models');
+const BlogComment = require('../models/blogComments');
 
 // @route GET /blog/all
 // @desc return all articles
@@ -91,15 +92,35 @@ exports.post_new_blog = (req, res) => {
 // @route GET /blog/:slug
 // @desc return a specific blog article
 // @access public
+// exports.get_blog_at_slug = (req, res) => {
+//   Blog.findOne({ slug: req.params.slug })
+//     .then((blog) => {
+//       if (!blog) return res.json({ error: 'Article not found' });
+//       blog.incrementReads();
+//       return res.json({ succes: true, blog });
+//     })
+//     .catch((err) => res.json({ success: false, msg: 'Error fetching data' }));
+// };
+
+// test
 exports.get_blog_at_slug = (req, res) => {
   Blog.findOne({ slug: req.params.slug })
     .then((blog) => {
       if (!blog) return res.json({ error: 'Article not found' });
       blog.incrementReads();
-      return res.json({ blog });
+      BlogComment.find({ blogId: blog._id })
+        .sort({ createAt: -1 })
+        .then((comments) => {
+          return res.json({ success: true, blog, comments });
+        })
+        .catch((err) =>
+          res.json({ success: false, msg: 'Error fetching data' })
+        );
     })
-    .catch((err) => console.log(err));
+    .catch((err) => res.json({ success: false, msg: 'Error fetching data' }));
 };
+
+// /test
 
 // @route PUT /blog/:slug
 // @desc update a specific blog article

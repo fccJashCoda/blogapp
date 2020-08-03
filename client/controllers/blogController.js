@@ -54,10 +54,14 @@ exports.get_blog = (req, res, next) => {
 
 // test routes
 exports.get_blogv2 = async (req, res, next) => {
-  const blog = await axios.get(`${proxy}/api/blog/${req.params.slug}`);
-  console.log('results: ', blog.data.blog);
-  res.render('404', { status: '001', msg: ' - Doing some science' });
-  // res.render('blogpost', {})
+  const results = await axios.get(`${proxy}/api/blog/${req.params.slug}`);
+  console.log(results.data);
+  console.log('results: ', results.data.blog);
+  const { blog, comments } = results.data;
+  const commentCounter = comments.length
+    ? `${comments.length} ${comments.length > 1 ? 'Comments' : 'Comment'}`
+    : 'No comments';
+  res.render('blogpost', { blog, comments, commentCounter, helper });
 };
 
 exports.post_slug_commentv2 = [
