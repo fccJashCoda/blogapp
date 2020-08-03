@@ -13,6 +13,12 @@ router.get('/', (req, res) => {
 // @access public
 router.get('/blog/:page?', blogController.get_blogs);
 
+// @route TEST ROUTES
+// @desc
+// @access public
+// router.post('/test/:slug', blogController.post_commentv2);
+router.get('/test/:slug', blogController.get_blogv2);
+
 // @route POST /:slug/like
 // @desc allows liking a blog if user is authenticated
 // @access private
@@ -33,7 +39,7 @@ router.get(
 router.post(
   '/:slug/comment',
   checkIsAuthenticated,
-  blogController.post_slug_comment
+  blogController.post_slug_commentv2
 );
 
 // @route POST /:slug

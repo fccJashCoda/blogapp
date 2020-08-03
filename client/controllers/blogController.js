@@ -52,6 +52,44 @@ exports.get_blog = (req, res, next) => {
     .catch((err) => res.json(err));
 };
 
+// test routes
+exports.get_blogv2 = async (req, res, next) => {
+  const blog = await axios.get(`${proxy}/api/blog/${req.params.slug}`);
+  console.log('results: ', blog.data.blog);
+  res.render('404', { status: '001', msg: ' - Doing some science' });
+  // res.render('blogpost', {})
+};
+
+exports.post_slug_commentv2 = [
+  body('editor').not().isEmpty().withMessage('No empty posts allowed'),
+
+  async (req, res, next) => {
+    const errors = validationResult(req);
+    const { editor, slug, blogId } = req.body;
+    if (!errors.isEmpty()) {
+      res.render('blogComment', {
+        slug,
+        blogId,
+        messages: { error: errors.errors[0].msg },
+      });
+    }
+    const payload = {
+      author: res.locals.user.username,
+      authorId: res.locals.user.id,
+      commentBody: editor,
+      blogId,
+    };
+    const post = await axios.post(`${proxy}/api/test/createcomment`, {
+      payload,
+    });
+    if (!post.data.success) {
+      res.render('404', { status: '500', msg: 'Server Error' });
+    }
+    res.redirect(`/${slug}`);
+  },
+];
+// /test routers
+
 exports.put_slug_like = async (req, res, next) => {
   User.findById(res.locals.user.id)
     .then(async (user) => {
@@ -68,7 +106,7 @@ exports.put_slug_like = async (req, res, next) => {
 };
 
 exports.get_slug_comment = (req, res) => {
-  res.render('blogComment', { slug: req.params.slug, blogid: req.query.id });
+  res.render('blogComment', { slug: req.params.slug, blogId: req.query.id });
 };
 
 exports.post_slug_comment = [
@@ -76,11 +114,11 @@ exports.post_slug_comment = [
 
   (req, res, next) => {
     const errors = validationResult(req);
-    const { editor, slug, blogid } = req.body;
+    const { editor, slug, blogId } = req.body;
     if (!errors.isEmpty()) {
       res.render('blogComment', {
         slug,
-        blogid,
+        blogId,
         messages: { error: errors.errors[0].msg },
       });
     }
@@ -88,7 +126,7 @@ exports.post_slug_comment = [
     const comment = new BlogComment({
       author: res.locals.user.id,
       body: editor,
-      blogPostId: blogid,
+      blogPostId: blogiId,
     });
 
     comment

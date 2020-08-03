@@ -11,10 +11,10 @@
       <label for="comment">Your comment:</label>
       <textarea name="editor" id="" cols="30" rows="10"></textarea>
       <input type="hidden" name="slug" value="<%= slug%>" />
-      <input type="hidden" name="blogid" value="<%= blogid%>" />
+      <input type="hidden" name="blogId" value="<%= blogId%>" />
       <button type="submit">Post comment</button>
     </form>
-    <h6><%= blogid %></h6>
+    <h6><%= blogId %></h6>
     <script>
       CKEDITOR.replace('editor');
     </script>
