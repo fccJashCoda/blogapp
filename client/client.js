@@ -84,9 +84,9 @@ app.use('/auth', router.auth);
 app.use('/user', router.user);
 
 // 404
-app.use((req, res) => {
-  res.render('404', { status: '404', msg: ' - Page Not Found' });
-});
+app.use((req, res) =>
+  res.status(400).render('404', { status: '404', msg: ' - Page Not Found' })
+);
 
 // client db
 mongoose
