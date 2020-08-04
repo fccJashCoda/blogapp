@@ -3,7 +3,7 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 const { checkIsAuthenticated } = require('../auth/utils');
 
-router.get('/:username', checkIsAuthenticated, userController.get_user_profile);
+router.get('/:username', userController.get_user_profile);
 
 router.get(
   '/account/:username/',

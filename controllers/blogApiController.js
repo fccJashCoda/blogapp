@@ -1,7 +1,6 @@
 const helper = require('../utils/tools');
 
-const { Blog } = require('../models/models');
-const BlogComment = require('../models/blogComments');
+const { Blog, BlogComment } = require('../models/models');
 
 // @route GET /blog/all
 // @desc return all articles
@@ -89,27 +88,30 @@ exports.post_new_blog = (req, res) => {
     });
 };
 
+// @route POST /blog/newblogcomment
+// @desc add a blog comment to the db
+// @access public
+exports.post_new_blog_comment = (req, res, next) => {
+  const { author, authorId, commentBody, blogId } = req.body.payload;
+  const comment = new BlogComment({ author, authorId, commentBody, blogId });
+  comment.save((err) => {
+    if (err) {
+      return res.json({ success: false, msg: err });
+    }
+    return res.json({ success: true });
+  });
+};
+
 // @route GET /blog/:slug
 // @desc return a specific blog article
 // @access public
-// exports.get_blog_at_slug = (req, res) => {
-//   Blog.findOne({ slug: req.params.slug })
-//     .then((blog) => {
-//       if (!blog) return res.json({ error: 'Article not found' });
-//       blog.incrementReads();
-//       return res.json({ succes: true, blog });
-//     })
-//     .catch((err) => res.json({ success: false, msg: 'Error fetching data' }));
-// };
-
-// test
 exports.get_blog_at_slug = (req, res) => {
   Blog.findOne({ slug: req.params.slug })
     .then((blog) => {
       if (!blog) return res.json({ error: 'Article not found' });
       blog.incrementReads();
       BlogComment.find({ blogId: blog._id })
-        .sort({ createAt: -1 })
+        .sort({ createdAt: -1 })
         .then((comments) => {
           return res.json({ success: true, blog, comments });
         })
@@ -119,8 +121,6 @@ exports.get_blog_at_slug = (req, res) => {
     })
     .catch((err) => res.json({ success: false, msg: 'Error fetching data' }));
 };
-
-// /test
 
 // @route PUT /blog/:slug
 // @desc update a specific blog article
@@ -178,7 +178,7 @@ exports.publish_blog_at_slug = (req, res) => {
     .catch((err) => res.status(500).json({ err }));
 };
 
-// @route PUT /blog/:id/unpublish
+// @route PUT /blog/:slug/unpublish
 // @desc unpublish a specific blog article
 // @access public
 exports.unpublish_blog_at_slug = (req, res) => {
@@ -192,7 +192,7 @@ exports.unpublish_blog_at_slug = (req, res) => {
     .catch((err) => res.json({ err }));
 };
 
-// @route DELETE /blog/:id
+// @route DELETE /blog/:slug
 // @desc delete a specific blog article
 // @access public
 exports.delete_blog_at_slug = (req, res) => {

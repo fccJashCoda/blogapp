@@ -13,6 +13,11 @@ router.get('/all', blogController.get_all_blogs);
 // @access public
 router.get('/topFive', blogController.get_top_five_blogs);
 
+// @route POST /blog/newblogcomment
+// @desc add a blog comment to the db
+// @access public
+router.post('/newblogcomment', blogController.post_new_blog_comment);
+
 // @route GET /blog/pages/:page?
 // @desc return last n published articles
 // @access public
@@ -44,12 +49,12 @@ router.put('/:slug/like', blogController.like_blog_article);
 // @access public
 router.put('/:slug/publish', blogController.publish_blog_at_slug);
 
-// @route PUT /blog/:id/unpublish
+// @route PUT /blog/:slug/unpublish
 // @desc unpublish a specific blog article
 // @access public
 router.put('/:slug/unpublish', blogController.unpublish_blog_at_slug);
 
-// @route DELETE /blog/:id
+// @route DELETE /blog/:slug
 // @desc delete a specific blog article
 // @access public
 router.delete('/:slug', blogController.delete_blog_at_slug);

@@ -1,9 +1,15 @@
 const User = require('../models/user');
 
+// @route GET /:username
+// @desc display a users profile
+// @access public
 exports.get_user_profile = (req, res) => {
   res.render('userprofile');
 };
 
+// @route GET /account/:username
+// @desc display a users account
+// @access private
 exports.get_user_account = async (req, res) => {
   try {
     const getUser = await User.findOne({ username: req.params.username });
@@ -16,6 +22,10 @@ exports.get_user_account = async (req, res) => {
   }
 };
 
+// @route POST /account/:username
+// @desc save the changes to a users acocunt
+// @access private
+// NOT YET IMPLEMENTED
 exports.post_user_account = (req, res) => {
   res.json({ msg: 'settings updated' });
 };

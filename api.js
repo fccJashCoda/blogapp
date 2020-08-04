@@ -4,6 +4,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 const express = require('express');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
 const cors = require('cors');
 
 const app = express();
@@ -20,6 +21,7 @@ const BlogComment = require('./models/blogComments');
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(morgan('tiny'));
 
 // Routes
 app.use('/api/blog', router.blog);
@@ -29,16 +31,16 @@ app.get('/', (req, res) => {
   res.redirect('/api/blog');
 });
 
-app.post('/api/test/createcomment', (req, res, next) => {
-  const { author, authorId, commentBody, blogId } = req.body.payload;
-  const comment = new BlogComment({ author, authorId, commentBody, blogId });
-  comment.save((err) => {
-    if (err) {
-      return res.json({ success: false, msg: err });
-    }
-    return res.json({ success: true });
-  });
-});
+// app.post('/api/test/createcomment', (req, res, next) => {
+//   const { author, authorId, commentBody, blogId } = req.body.payload;
+//   const comment = new BlogComment({ author, authorId, commentBody, blogId });
+//   comment.save((err) => {
+//     if (err) {
+//       return res.json({ success: false, msg: err });
+//     }
+//     return res.json({ success: true });
+//   });
+// });
 
 app.get('/cookies', (req, res) => {
   res.json({ msg: 'You found the cookie jar!' });

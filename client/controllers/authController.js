@@ -1,10 +1,16 @@
 const { body, validationResult } = require('express-validator');
 const User = require('../models/user');
 
+// @route GET /login
+// @desc display the login page
+// @access public
 exports.get_login = (req, res) => {
   res.render('login');
 };
 
+// @route POST /login
+// @desc authenticate user and log him in
+// @access public
 exports.post_login = [
   body('email').trim().isEmail().withMessage('Invalid Email').escape(),
   body('password').trim().escape(),
@@ -27,15 +33,24 @@ exports.post_login = [
   },
 ];
 
+// @route POST /logout
+// @desc logout the user
+// @access private user
 exports.logout = (req, res) => {
   req.logout();
   res.redirect('../');
 };
 
+// @route GET /register
+// @desc display the register page
+// @access public
 exports.get_register = (req, res) => {
   res.render('register');
 };
 
+// @route POST /register
+// @desc register the user in the database
+// @access public
 exports.post_register = [
   body('username')
     .trim()
