@@ -34,7 +34,6 @@ exports.get_blog = async (req, res, next) => {
     const results = await axios.get(`${proxy}/api/blog/${req.params.slug}`);
     const { blog, comments } = results.data;
     if (!blog) return next();
-    console.log('comments length: ', comments.length);
     const commentCounter = comments.length
       ? `${comments.length} ${comments.length > 1 ? 'Comments' : 'Comment'}`
       : 'No comments';

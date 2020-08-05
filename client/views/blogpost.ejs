@@ -5,29 +5,38 @@
   </head>
   <body>
     <%- include('./partials/header.ejs') %>
-    <h3><%= blog.title %></h3>
-    <p><%= helper.humanReadableDate(blog.publishedDate) %></p>
-    <p><%= blog.author %></p>
-    <p><%= blog.article %></p>
-    <p><%= helper.timeSincePublished(blog.publishedDate) %></p>
-    <p class="likeCount">Likes: <%= blog.likes %></p>
-    <% if (locals.user) { %> <% if (!locals.user.liked.includes(blog.slug)) { %>
-    <form action="/<%= blog.slug%>/like" method="POST">
-      <input type="submit" value="Like" />
-    </form>
+    <div class="container mt-3">
+      <h3 class="font-italic">
+        <%= blog.title %> <span>by <%= blog.author %></span>
+      </h3>
+      <p class="blog-post-meta">
+        <%= helper.humanReadableDate(blog.publishedDate) %>
+      </p>
+      <p><%= blog.author %></p>
+      <p><%= blog.article %></p>
+      <p><%= helper.timeSincePublished(blog.publishedDate) %></p>
+      <p class="likeCount">Likes: <%= blog.likes %></p>
+      <% if (locals.user) { %> <% if (!locals.user.liked.includes(blog.slug)) {
+      %>
+      <form action="/<%= blog.slug%>/like" method="POST">
+        <input type="submit" value="Like" />
+      </form>
 
-    <% } %>
-    <a class="btn" href="/<%= blog.slug%>/comment?id=<%= blog._id%>">Comment</a>
-    <% } %>
-    <h4>
-      <%= commentCounter %>
-    </h4>
-    <% comments.forEach(comment => { %>
-    <div>
-      <a href="/user/<%= comment.author %>"><%= comment.author %></a>
-      <p><%= helper.humanReadableDate(comment.createdAt) %></p>
-      <p><%- comment.commentBody%></p>
+      <% } %>
+      <a class="btn" href="/<%= blog.slug%>/comment?id=<%= blog._id%>"
+        >Comment</a
+      >
+      <% } %>
+      <h4>
+        <%= commentCounter %>
+      </h4>
+      <% comments.forEach(comment => { %>
+      <div>
+        <a href="/user/<%= comment.author %>"><%= comment.author %></a>
+        <p><%= helper.humanReadableDate(comment.createdAt) %></p>
+        <p><%- comment.commentBody%></p>
+      </div>
+      <% }) %>
     </div>
-    <% }) %>
   </body>
 </html>

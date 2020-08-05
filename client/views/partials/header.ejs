@@ -1,32 +1,51 @@
 <header>
-  <a href="#">
-    <h1>DevEnv</h1>
-  </a>
-  <nav>
-    <ul>
-      <li>
-        <a href="/">Home</a>
-      </li>
-      <% if (locals.user) { %>
-      <li>
-        <a href="/user/account/<%= locals.user.username%>">My account</a>
-      </li>
-      <li>
-        Welcome, <%= locals.user.username%>
-      </li>
-      <li>
-        <form action="/auth/logout" method="POST">
-          <button type="submit">Logout</button>
-        </form>
-      </li>
-      <% } else { %>
-      <li>
-        <a href="/auth/login">Login</a>
-      </li>
-      <li>
-        <a href="/auth/register">Register</a>
-      </li>
-      <% } %>
-    </ul>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">DevEnvBlog</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarText"
+        aria-controls="navbarText"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/"
+              >Home <span class="sr-only">(current)</span></a
+            >
+          </li>
+        </ul>
+        <span class="navbar-text">
+          <ul class="navbar-nav mr-auto">
+            <% if (locals.user) { %>
+            <li class="nav-item">
+              <a href="/user/account/<%= locals.user.username%>">My account</a>
+            </li>
+            <li class="nav-item ml-3 mr-3">
+              Welcome, <%= locals.user.username%>
+            </li>
+            <li class="nav-item">
+              <form action="/auth/logout" method="POST">
+                <button type="submit">Logout</button>
+              </form>
+            </li>
+            <% } else { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/auth/login">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/auth/register">Register</a>
+            </li>
+            <% } %>
+          </ul>
+        </span>
+      </div>
+    </div>
   </nav>
 </header>
