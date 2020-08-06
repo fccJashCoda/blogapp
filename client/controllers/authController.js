@@ -1,10 +1,14 @@
 const { body, validationResult } = require('express-validator');
 const User = require('../models/user');
 
+// cache
+let cachedReferer;
+
 // @route GET /login
 // @desc display the login page
 // @access public
 exports.get_login = (req, res) => {
+  cachedReferer = req.headers.referer;
   res.render('login');
 };
 
@@ -27,7 +31,9 @@ exports.post_login = [
       }
       req.login(user, (err) => {
         if (err) return next(err);
-        return res.redirect('/');
+        backURL = cachedReferer || '/';
+        cachedReferer = '';
+        return res.redirect(backURL);
       });
     })(req, res, next);
   },

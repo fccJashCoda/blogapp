@@ -14,12 +14,16 @@ router.get('/', (req, res) => {
 // @route GET /blog/:page?
 // @desc display all blog articles (paginated)
 // @access public
-router.get('/blog/:page?', blogController.get_blogs);
+router.get('/blog/:page?', blogController.get_blogs_v2);
 
 // @route POST /:slug/like
 // @desc allows liking a blog if user is authenticated
 // @access private
-router.post('/:slug/like', checkIsAuthenticated, blogController.post_slug_like);
+router.post(
+  '/:slug/like',
+  checkIsAuthenticated,
+  blogController.post_slug_like_v2
+);
 
 // @route GET /:slug/comment
 // @desc display the comment page

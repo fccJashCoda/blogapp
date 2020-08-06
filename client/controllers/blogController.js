@@ -26,20 +26,40 @@ exports.get_blogs = (req, res, next) => {
     });
 };
 
+exports.get_blogs_v2 = async (req, res, next) => {
+  if (req.params.page && !Number(req.params.page)) {
+    return next();
+  }
+  const query = req.params.page > 0 ? req.params.page : '';
+  try {
+    const {
+      data: { blogs: blogs, current, pages, blogCount },
+    } = await axios.get(`${proxy}/api/blog/pages/${query}`);
+
+    const postCounter = blogCount
+      ? `${blogCount > 1 ? 'Posts' : 'Post'}`
+      : 'No Posts';
+
+    return res.render('index', { blogs, current, pages, postCounter, helper });
+  } catch (error) {
+    return res.render('404', { status: '500', msg: error });
+  }
+};
+
 // @route GET /:slug
 // @desc display a specific article
 // @access public
 exports.get_blog = async (req, res, next) => {
   try {
-    const results = await axios.get(`${proxy}/api/blog/${req.params.slug}`);
-    const { blog, comments } = results.data;
+    const {
+      data: { blog, comments },
+    } = await axios.get(`${proxy}/api/blog/${req.params.slug}`);
     if (!blog) return next();
     const commentCounter = comments.length
       ? `${comments.length} ${comments.length > 1 ? 'Comments' : 'Comment'}`
       : 'No comments';
     return res.render('blogpost', { blog, comments, commentCounter, helper });
   } catch (error) {
-    console.log(error);
     return res.render('404', { status: '500', msg: 'Server Error' });
   }
 };
@@ -60,6 +80,24 @@ exports.post_slug_like = async (req, res, next) => {
       return res.redirect(`/${req.params.slug}`);
     })
     .catch((err) => res.render('404', { status: '500', msg: 'Server Error' }));
+};
+
+exports.post_slug_like_v2 = async (req, res) => {
+  try {
+    const foundUser = await User.findById(res.locals.user.id);
+    const result = await axios.put(
+      `http://localhost:5000/api/blog/${req.params.slug}/like`
+    );
+    if (!foundUser)
+      return res.render('404', { status: '500', msg: 'Server Error' });
+    if (result.data.error) {
+      return res.render('404', { status: '500', msg: result.data.error });
+    }
+    foundUser.addLikedPost(req.params.slug);
+    return res.redirect(`/${req.params.slug}`);
+  } catch (error) {
+    return res.render('404', { status: '500', msg: error });
+  }
 };
 
 // @route GET /:slug/comment
