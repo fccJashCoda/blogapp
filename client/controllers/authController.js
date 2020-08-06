@@ -1,8 +1,8 @@
 const { body, validationResult } = require('express-validator');
 const User = require('../models/user');
 
-// cache
-let cachedReferer;
+// Cache
+let cachedReferer; // stores the previous page URL to ease redirection
 
 // @route GET /login
 // @desc display the login page
@@ -44,7 +44,7 @@ exports.post_login = [
 // @access private user
 exports.logout = (req, res) => {
   req.logout();
-  res.redirect('../');
+  res.redirect(req.headers.referer);
 };
 
 // @route GET /register
