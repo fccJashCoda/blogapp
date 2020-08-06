@@ -7,26 +7,7 @@ const { body, validationResult } = require('express-validator');
 // @route GET /blog/:page?
 // @desc redirects to the main blog page
 // @access public
-exports.get_blogs = (req, res, next) => {
-  if (req.params.page && !Number(req.params.page)) {
-    return next();
-  }
-  const query = req.params.page > 0 ? req.params.page : '';
-
-  axios
-    .get(`${proxy}/api/blog/pages/${query}`)
-    .then(({ data: blogs }) => {
-      const postCounter = blogs.blogCount
-        ? `${blogs.blogCount} ${blogs.blogCount > 1 ? 'Posts' : 'Post'}`
-        : 'No Posts';
-      return res.render('index', { ...blogs, postCounter, helper });
-    })
-    .catch((err) => {
-      return res.json(err);
-    });
-};
-
-exports.get_blogs_v2 = async (req, res, next) => {
+exports.get_blogs = async (req, res, next) => {
   if (req.params.page && !Number(req.params.page)) {
     return next();
   }
@@ -67,22 +48,7 @@ exports.get_blog = async (req, res, next) => {
 // @route POST /:slug/like
 // @desc allows liking a blog if user is authenticated
 // @access private
-exports.post_slug_like = async (req, res, next) => {
-  User.findById(res.locals.user.id)
-    .then(async (user) => {
-      if (!user) {
-        return res.render('404', { msg: 'Server Error' });
-      }
-      user.addLikedPost(req.params.slug);
-      axios
-        .put(`http://localhost:5000/api/blog/${req.params.slug}/like`)
-        .catch((err) => next(err));
-      return res.redirect(`/${req.params.slug}`);
-    })
-    .catch((err) => res.render('404', { status: '500', msg: 'Server Error' }));
-};
-
-exports.post_slug_like_v2 = async (req, res) => {
+exports.post_slug_like = async (req, res) => {
   try {
     const foundUser = await User.findById(res.locals.user.id);
     const result = await axios.put(
