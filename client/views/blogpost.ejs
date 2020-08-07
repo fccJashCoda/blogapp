@@ -5,7 +5,7 @@
   </head>
   <body>
     <%- include('./partials/header.ejs') %>
-    <div class="container mt-3">
+    <article class="container mt-3">
       <h3 class="font-italic">
         <%= blog.title %>
       </h3>
@@ -32,12 +32,16 @@
       </h4>
       <% comments.forEach(comment => { %>
       <div>
+        <img
+          src="https://via.placeholder.com/150"
+          alt="150px placeholder image"
+        />
         <a href="/user/<%= comment.author %>"><%= comment.author %></a>
         <p><%= helper.humanReadableDate(comment.createdAt) %></p>
         <p><%- comment.commentBody%></p>
       </div>
       <% }) %>
-    </div>
+    </article>
     <%- include('./partials/footer.ejs')%>
   </body>
 </html>

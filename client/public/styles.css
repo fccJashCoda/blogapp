@@ -16,6 +16,14 @@ ul {
   list-style: none;
 }
 
+/* BUTTONS */
+.logout {
+  border: none;
+  background: none;
+  color: #fff;
+}
+
+/* PAGINATION */
 .paginationContainer {
   display: flex;
   justify-content: center;
@@ -67,5 +75,10 @@ footer {
 
   .welcomeMessage {
     display: none;
+  }
+
+  .logout {
+    padding: 0;
+    margin-top: 13px;
   }
 }
