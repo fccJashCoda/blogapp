@@ -22,7 +22,7 @@
                   <p class="snippet"><%= blog.snippet %></p>
                 </a>
                 <p>
-                  <a href=""><%= blog.author %></a>
+                  <a href="/user/<%= blog.author %>"><%= blog.author %></a>
                   <span class="timeSincePublished">
                     - <%= helper.timeSincePublished(blog.publishedDate) %>
                   </span>

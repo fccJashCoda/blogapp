@@ -24,11 +24,11 @@
         <span class="navbar-text">
           <ul class="navbar-nav mr-auto">
             <% if (locals.user) { %>
-            <li class="nav-item">
-              <a href="/user/account/<%= locals.user.username%>">My account</a>
-            </li>
             <li class="nav-item welcomeMessage ml-3 mr-3">
               Welcome, <%= locals.user.username%>
+            </li>
+            <li class="nav-item">
+              <a href="/user/account/<%= locals.user.username%>">My account</a>
             </li>
             <li class="nav-item">
               <form action="/auth/logout" method="POST">
