@@ -12,6 +12,11 @@ ul {
   list-style: none;
 }
 
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+}
+
 .pagination {
   display: flex;
 }
