@@ -31,6 +31,7 @@ ul {
   border: 1px solid skyblue;
   color: rgb(9, 90, 122);
 }
+
 .pagination li a:hover {
   background: skyblue;
   color: #fff !important;
@@ -54,4 +55,17 @@ footer {
   text-align: center;
   position: absolute;
   width: 100%;
+}
+
+@media (max-width: 990px) {
+  .pagination li a {
+    display: block;
+    padding: 0.3em 0.3em;
+    border: none;
+    color: rgb(9, 90, 122);
+  }
+
+  .welcomeMessage {
+    display: none;
+  }
 }

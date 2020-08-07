@@ -14,7 +14,7 @@
       <input type="hidden" name="blogId" value="<%= blogId%>" />
       <button type="submit">Post comment</button>
     </form>
-    <h6><%= blogId %></h6>
+    <%- include('./partials/footer.ejs')%>
     <script>
       CKEDITOR.replace('editor');
     </script>
