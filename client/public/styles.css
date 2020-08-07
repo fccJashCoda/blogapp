@@ -86,7 +86,9 @@ footer {
     border: none;
     color: rgb(9, 90, 122);
   }
-
+  aside .topFivePubDate,
+  .articleWrapper .articleContent .snippet,
+  .articleWrapper img,
   .welcomeMessage {
     display: none;
   }
