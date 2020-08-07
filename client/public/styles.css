@@ -16,6 +16,24 @@ ul {
   list-style: none;
 }
 
+/* ARTICLE */
+.articleWrapper {
+  display: flex;
+}
+.articleContent {
+  margin-left: 15px;
+  padding-top: 10px;
+}
+
+.articleContent .snippet {
+  max-height: 49px;
+  overflow: hidden;
+}
+
+.articleContent .timeSincePublished {
+  color: rgb(100, 100, 100);
+}
+
 /* BUTTONS */
 .logout {
   border: none;
@@ -48,10 +66,6 @@ ul {
 .active,
 .disabled {
   cursor: default;
-}
-
-.blogArticle {
-  display: block;
 }
 
 footer {
