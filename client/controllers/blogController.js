@@ -18,7 +18,7 @@ exports.get_blogs = async (req, res, next) => {
     } = await axios.get(`${proxy}/api/blog/pages/${query}`);
 
     const postCounter = blogCount
-      ? `${blogCount > 1 ? 'Posts' : 'Post'}`
+      ? `${blogCount} ${blogCount > 1 ? 'Posts' : 'Post'}`
       : 'No Posts';
 
     return res.render('index', { blogs, current, pages, postCounter, helper });
