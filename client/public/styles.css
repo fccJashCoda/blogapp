@@ -34,11 +34,39 @@ ul {
   color: rgb(100, 100, 100);
 }
 
+/* FORMS */
+.form-wrapper {
+  display: block;
+  margin: auto;
+  width: 362px;
+  margin-top: 25vh;
+  background: #333;
+  color: #fff;
+  padding: 58px 37px;
+}
 /* BUTTONS */
 .logout {
   border: none;
   background: none;
   color: #fff;
+}
+
+.formSubmitBtn,
+.formRedirectBtn {
+  display: inline-block;
+  width: 100%;
+  padding: 1em;
+  margin-top: 5px;
+  border: none;
+  border-radius: 5px;
+  background: cornflowerblue;
+  color: #fff;
+  font-weight: bold;
+}
+
+.formRedirectBtn {
+  text-align: center;
+  background: chocolate;
 }
 
 /* PAGINATION */
@@ -96,5 +124,15 @@ footer {
   .logout {
     padding: 0;
     margin-top: 13px;
+  }
+}
+
+@media (max-width: 360px) {
+  .form-wrapper {
+    padding: 58px 20px;
+  }
+  .formSubmitBtn,
+  .formRedirectBtn {
+    width: 100%;
   }
 }

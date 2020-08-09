@@ -4,24 +4,28 @@
     <%- include('./partials/head.ejs')%>
   </head>
   <body>
-    <h4>Register</h4>
-    <% if (messages.error) { %> <%= messages.error %> <% } %>
-    <form action="/auth/register" method="POST">
-      <div>
-        <label for="username">Username</label>
-        <input type="username" name="username" id="username" />
+    <div class="container">
+      <div class="form-wrapper">
+        <h4>Register</h4>
+        <% if (messages.error) { %> <%= messages.error %> <% } %>
+        <form action="/auth/register" method="POST">
+          <div>
+            <label for="username">Username</label>
+            <input type="username" name="username" id="username" />
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" />
+          </div>
+          <div>
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" />
+          </div>
+          <button class="formSubmitBtn" type="submit">Sign Up</button>
+        </form>
+        <a class="formRedirectBtn" href="/auth/login">Link to Sign In</a>
       </div>
-      <div>
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email" />
-      </div>
-      <div>
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password" />
-      </div>
-      <button type="submit">Submit</button>
-    </form>
-    <a href="/auth/login">Login</a>
+    </div>
     <%- include('./partials/footer.ejs')%>
   </body>
 </html>
