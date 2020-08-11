@@ -3,8 +3,18 @@ const User = require('../models/user');
 // @route GET /:username
 // @desc display a users profile
 // @access public
-exports.get_user_profile = (req, res) => {
-  res.render('userprofile');
+exports.get_user_profile = async (req, res) => {
+  try {
+    const response = await User.findOne(
+      { username: req.params.username },
+      { password: 0 }
+    );
+    if (!response)
+      return res.render('404', { status: '404', msg: 'User Not Found' });
+    return res.render('userprofile', { userprofile: response });
+  } catch (error) {
+    return res.render('404', { status: '500', msg: 'Server Error' });
+  }
 };
 
 // @route GET /account/:username
