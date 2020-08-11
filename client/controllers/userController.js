@@ -10,10 +10,10 @@ exports.get_user_profile = async (req, res) => {
       { password: 0 }
     );
     if (!response)
-      return res.render('404', { status: '404', msg: 'User Not Found' });
+      return res.render('404', { status: '404', msg: ' - User Not Found' });
     return res.render('userprofile', { userprofile: response });
   } catch (error) {
-    return res.render('404', { status: '500', msg: 'Server Error' });
+    return res.render('404', { status: '500', msg: ' - Server Error' });
   }
 };
 
@@ -23,12 +23,14 @@ exports.get_user_profile = async (req, res) => {
 exports.get_user_account = async (req, res) => {
   try {
     const getUser = await User.findOne({ username: req.params.username });
+    if (!getUser)
+      return res.render('404', { status: '500', msg: ' - Server Error' });
     if (String(res.locals.user.id) !== String(getUser._id)) {
       return res.render('404', { status: '403', msg: ' - Access Denied' });
     }
-    return res.render('useraccount');
+    return res.render('useraccount', { account: getUser });
   } catch (error) {
-    return res.render('404', { status: '500', msg: 'Server error' });
+    return res.render('404', { status: '500', msg: '- Server error' });
   }
 };
 
